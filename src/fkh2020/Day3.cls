@@ -12,40 +12,32 @@ ClassMethod part1()
            Set l=$LENGTH(val)
            For i=1:1:l {
                Set c=$EXTRACT(val,i)
-               Set map(i,y)=c                              
+               Set map(y,i)=c                              
            }
            Set y=y+1
        }
-    Set px=4
-    For y=2:1:324 {
-        Set c=$GET(map(((px-1)#31)+1,y),"")
-        Write c,!
-        If c="#" {
-            Set erg=erg+1
-        }
-        Set px=px+3
-    }
-    Return erg
+    Set e1= ..ctree(3,1,.map)
+    Write e1,!
+    Return e1
 }
 
 ClassMethod ctree(r, d, ByRef map)
 {
-    Set erg=0    
-    Set px=r+1
-    For y=(1+d):d:324 {
-        Set c=$GET(map(((px-1)#31)+1,y),"")
-        Write c,!
-        If c="#" {
+    Set erg=0        
+    Set y=1,x=1
+    While ((y+d)<=$ORDER(map(""),-1)){
+        Set x=x+r
+        Set y=y+d
+        If $GET(map(y,((x-1)#31)+1),"")="#"{
             Set erg=erg+1
         }
-        Set px=px+r
     }
     Return erg
 }
 
 ClassMethod part2()
 {
-       Set data = ##class(Utils.Base).load(2020,3)
+    Set data = ##class(Utils.Base).load(2020,3)
     Set erg=0 
 	Set iterator=data.%GetIterator()
     Set y=1
@@ -54,7 +46,7 @@ ClassMethod part2()
            Set l=$LENGTH(val)
            For i=1:1:l {
                Set c=$EXTRACT(val,i)
-               Set map(i,y)=c                              
+               Set map(y,i)=c                              
            }
            Set y=y+1
        }
