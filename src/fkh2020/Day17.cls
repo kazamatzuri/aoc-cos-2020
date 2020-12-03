@@ -15,7 +15,7 @@ ClassMethod part1()
 
 ClassMethod part2()
 {
-    Set data = ##class(Utils.Base).load(2020,3)
+    Set data = ##class(Utils.Base).load(2020,17)
     Set erg=0 
 	Set iterator=data.%GetIterator()
    	While iterator.%GetNext(.key,.val) { 
