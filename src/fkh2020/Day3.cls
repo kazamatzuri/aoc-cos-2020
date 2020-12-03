@@ -65,7 +65,6 @@ ClassMethod part2()
     Set e5= ..ctree(1,2,.map)
     Write e1,!,e2,!,e3,!,e4,!,e5,!
     Return e1*e2*e3*e4*e5
-    #; Return erg1*erg2*erg3*erg4*erg5
 }
 
 }
