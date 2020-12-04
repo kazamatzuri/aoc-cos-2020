@@ -71,7 +71,7 @@ ClassMethod validate2(ByRef pass)
 
 
     Set ecl=$GET(pass("ecl"))
-    If '$DATA(colors(ecl)){
+    If ##class(Utils.Base).notinArray(ecl,.colors){
         Write "invalid ecl",ecl,!
         Set valid=0
     }
