@@ -61,7 +61,7 @@ ClassMethod modInv(a, m)
 
 ClassMethod inArray(element, ByRef array) As %Boolean
 {
-	Return '$DATA(array(element))
+	Return $DATA(array(element))
 }
 
 ClassMethod gcd(a, b) As %Integer
