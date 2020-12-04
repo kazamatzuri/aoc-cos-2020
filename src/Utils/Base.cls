@@ -61,15 +61,7 @@ ClassMethod modInv(a, m)
 
 ClassMethod inArray(element, ByRef array) As %Boolean
 {
-	Set result=0
-	Set c=$ORDER(array(""),1,v)
-	While c'=""{
-		If element=v {
-			Return 1
-		}
-		Set c=$ORDER(array(c),1,v)
-	}
-	Return result
+	Return '$DATA(array(element))
 }
 
 ClassMethod gcd(a, b) As %Integer
