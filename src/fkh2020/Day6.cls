@@ -11,29 +11,20 @@ ClassMethod part1()
    	While iterator.%GetNext(.key,.val) { 
             If $LENGTH(val)>0 {               
                 For i=1:1:$LENGTH(val){
-                    Set groupanswers($EXTRACT(val,i))=""
+                    Set a=$EXTRACT(val,i)
+                    If groupanswers'[a{
+                        Set groupanswers=groupanswers_a
+                    }                    
                 }               
-           } Else {
-               Set c=0
-               Set i=$ORDER(groupanswers(""))
-               While i'="" {
-                   Set c=c+1
-                   Set i=$ORDER(groupanswers(i))                   
-               }
-            Set sum=sum+c
-            #; Write c," ",sum,!
-            Kill groupanswers
+           } Else {               
+                Set sum=sum+$LENGTH(groupanswers)
+                #; Write c," ",sum,!
+                Set groupanswers=""
            }
        }
-   Set c=0
-               Set i=$ORDER(groupanswers(""))
-               While i'="" {
-                   Set c=c+1
-                   Set i=$ORDER(groupanswers(i))                   
-               }
-            Set sum=sum+c
-            #; Write c," ",sum,!
-            Kill groupanswers
+    Set sum=sum+$LENGTH(groupanswers)
+    #; Write c," ",sum,!
+    Set groupanswers=""
     Return sum
 }
 
@@ -46,44 +37,28 @@ ClassMethod part2()
     Set sum=0
     Set groupmembers=0
    	While iterator.%GetNext(.key,.val) { 
-            Set groupmembers=groupmembers+1
-            If $LENGTH(val)>0 {               
-                For i=1:1:$LENGTH(val){
-                    Set a=($EXTRACT(val,i))
-                    If groupmembers=1{
-                        Set groupanswers(a)=""
-                    } Else {
-                        Set t=$ORDER(groupanswers(""))
-                        While t'="" {
-                            If val'[t {
-                                Kill groupanswers(t)
-                            }
-                            Set t=$ORDER(groupanswers(t))                   
-                        }
-                    }
-                }               
-           } Else {
-               Set c=0
-               Set i=$ORDER(groupanswers(""))
-               While i'="" {
-                   Set c=c+1
-                   Set i=$ORDER(groupanswers(i))                   
-               }
-            Set sum=sum+c
-            Write c," ",sum,!
-            Kill groupanswers
-            Set groupmembers=0
+           Set groupmembers=groupmembers+1
+           If $LENGTH(val)>0 {          
+                If groupmembers=1 {
+                    Set groupanswers=val                    
+                } Else {   
+                    Set tempa=groupanswers  
+                    For i=1:1:$LENGTH(groupanswers){
+                        Set a=$EXTRACT(groupanswers,i)                    
+                        If val'[a{
+                            Set tempa=$REPLACE(tempa,a,"")
+                        }                    
+                    }    
+                    Set groupanswers=tempa   
+                }        
+           } Else {               
+                Set sum=sum+$LENGTH(groupanswers)                
+                #; Write c," ",sum,!
+                Set groupanswers=""
+                Set groupmembers=0
            }
        }
-            Set c=0
-               Set i=$ORDER(groupanswers(""))
-               While i'="" {
-                   Set c=c+1
-                   Set i=$ORDER(groupanswers(i))                   
-               }
-            Set sum=sum+c
-            Write c," ",sum,!
-            Kill groupanswers
+   Set sum=sum+$LENGTH(groupanswers)
     Return sum
 }
 
