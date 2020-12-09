@@ -191,9 +191,10 @@ ClassMethod sum(ByRef array)
 
 // load input data
 
-ClassMethod load(y, d)
+ClassMethod load(y, d, t = 0)
 {
 	Set fname=..#Folder_"/"_y_"/"_"input"_d_".txt"
+	Set:t fname=..#Folder_"/"_y_"/"_"input"_d_".test.txt"
 	//w fname,!
 	Set fs=##clasS(%Stream.FileCharacter).%New()
 	Do fs.LinkToFile(fname)
