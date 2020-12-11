@@ -202,10 +202,25 @@ ClassMethod load(y, d, t = 0)
 	Set data=[]
 	While 'fs.AtEnd{
 		Set x=fs.ReadLine()
-		Do data.%Push(x)
-		//w x,!
+		Do data.%Push(x)	
 	}
 	Return data
+}
+
+ClassMethod load2(ByRef data, y, d, t = 0)
+{
+	Set fname=..#Folder_"/"_y_"/"_"input"_d_".txt"
+	Set:t fname=..#Folder_"/"_y_"/"_"input"_d_".test.txt"
+	//w fname,!
+	Set fs=##clasS(%Stream.FileCharacter).%New()
+	Do fs.LinkToFile(fname)
+	
+	// Set data=[]
+	While 'fs.AtEnd{
+		Set x=fs.ReadLine()
+		Set data($INCREMENT(data))=x				
+	}
+	Return $$$OK
 }
 
 ClassMethod loadSplit(y, d)
