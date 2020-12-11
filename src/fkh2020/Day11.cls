@@ -11,12 +11,12 @@ ClassMethod part1()
     #;    }
     Do ##class(Utils.Base).load2(.data,2020,11)
     ZWrite data
-    Set r=$ORDER(data(""),1,v)    
+    Set r=$O(data(""),1,v)    
     Set w=0,h=0
     While r'=""{
         #; ZWrite v
-        For c=1:1:$LENGTH(v){            
-            Set cs=$EXTRACT(v,c)
+        For c=1:1:$L(v){            
+            Set cs=$E(v,c)
             Set seats(c,r)=cs
             If c>w{
                 Set w=c
@@ -25,7 +25,7 @@ ClassMethod part1()
         If r>h{
             Set h=r
         }
-        Set r=$ORDER(data(r),1,v)
+        Set r=$O(data(r),1,v)
     }    
     Set it=0    
     Write "loop",h," ",w,!
@@ -34,7 +34,7 @@ ClassMethod part1()
         Merge nextgen=seats
         For y=1:1:h{
             For x=1:1:w{
-                Set seat=$GET(seats(x,y),"")
+                Set seat=$G(seats(x,y),"")
                 #; Set empty=..getAdjFree(.seats,x,y)
                 Set occ=..getAdjOcc(.seats,x,y)
                 #; Write x,":",y," e:",empty," o:",occ,!
@@ -54,7 +54,7 @@ ClassMethod part1()
         Write "----------",!
         For y=1:1:h{
             For x=1:1:w{
-                Set seat=$GET(seats(x,y),"")
+                Set seat=$G(seats(x,y),"")
                 Write seat
                 If seat="#"{
                     Set c=c+1
@@ -69,7 +69,7 @@ ClassMethod part1()
     Set c=0
     For y=1:1:h{
             For x=1:1:w{
-                Set seat=$GET(seats(x,y),"")
+                Set seat=$G(seats(x,y),"")
                 Write seat
                 If seat="#"{
                     Set c=c+1
@@ -86,28 +86,28 @@ ClassMethod getAdjFree(ByRef seats, x, y)
 {
     Set check="L"
     Set free=0
-    If $GET(seats(x-1,y),"")=check{
+    If $G(seats(x-1,y),"")=check{
         Set free=free+1
     }
-    If $GET(seats(x+1,y),"")=check{
+    If $G(seats(x+1,y),"")=check{
         Set free=free+1
     }
-    If $GET(seats(x-1,y-1),"")=check{
+    If $G(seats(x-1,y-1),"")=check{
         Set free=free+1
     }
-    If $GET(seats(x-1,y+1),"")=check{
+    If $G(seats(x-1,y+1),"")=check{
         Set free=free+1
     }
-    If $GET(seats(x,y+1),"")=check{
+    If $G(seats(x,y+1),"")=check{
         Set free=free+1
     }
-    If $GET(seats(x,y-1),"")=check{
+    If $G(seats(x,y-1),"")=check{
         Set free=free+1
     }
-    If $GET(seats(x+1,y-1),"")=check{
+    If $G(seats(x+1,y-1),"")=check{
         Set free=free+1
     }
-    If $GET(seats(x+1,y-1),"")=check{
+    If $G(seats(x+1,y-1),"")=check{
         Set free=free+1
     }
     Return free
@@ -117,28 +117,28 @@ ClassMethod getAdjOcc(ByRef seats, x, y)
 {
     Set check="#"
     Set free=0
-    If $GET(seats(x-1,y-1),"")=check{
+    If $G(seats(x-1,y-1),"")=check{
         Set free=free+1
     }
-    If $GET(seats(x,y-1),"")=check{
+    If $G(seats(x,y-1),"")=check{
         Set free=free+1
     }
-    If $GET(seats(x+1,y-1),"")=check{
+    If $G(seats(x+1,y-1),"")=check{
         Set free=free+1
     }
-    If $GET(seats(x-1,y),"")=check{
+    If $G(seats(x-1,y),"")=check{
         Set free=free+1
     }
-    If $GET(seats(x+1,y),"")=check{
+    If $G(seats(x+1,y),"")=check{
         Set free=free+1
     }
-    If $GET(seats(x-1,y+1),"")=check{
+    If $G(seats(x-1,y+1),"")=check{
         Set free=free+1
     }
-    If $GET(seats(x,y+1),"")=check{
+    If $G(seats(x,y+1),"")=check{
         Set free=free+1
     }
-    If $GET(seats(x+1,y+1),"")=check{
+    If $G(seats(x+1,y+1),"")=check{
         Set free=free+1
     }
     Return free
@@ -147,15 +147,15 @@ ClassMethod getAdjOcc(ByRef seats, x, y)
 ClassMethod getOccInView(ByRef seats, x, y)
 {
     Set seen=0
-    For dir=$LISTBUILD(-1,-1),$LISTBUILD(0,-1),$LISTBUILD(1,-1),$LISTBUILD(-1,0),$LISTBUILD(1,0),$LISTBUILD(-1,1),$LISTBUILD(0,1),$LISTBUILD(1,1) {
+    For dir=$LB(-1,-1),$LB(0,-1),$LB(1,-1),$LB(-1,0),$LB(1,0),$LB(-1,1),$LB(0,1),$LB(1,1) {
         Set f=1
-        Set tx=x+($LISTGET(dir,1)*f)
-        Set ty=y+($LISTGET(dir,2)*f)        
-        Set g=$GET(seats(tx,ty))
+        Set tx=x+($LG(dir,1)*f)
+        Set ty=y+($LG(dir,2)*f)        
+        Set g=$G(seats(tx,ty))
         While g'="" {            
-            Set tx=x+($LISTGET(dir,1)*f)
-            Set ty=y+($LISTGET(dir,2)*f)        
-            Set g=$GET(seats(tx,ty))
+            Set tx=x+($LG(dir,1)*f)
+            Set ty=y+($LG(dir,2)*f)        
+            Set g=$G(seats(tx,ty))
             If g="#" {
                 Set seen=seen+1
                 Set g=""
@@ -166,7 +166,7 @@ ClassMethod getOccInView(ByRef seats, x, y)
             Set f=f+1
         }
     }
-    Do $INCREMENT(a)
+    Do $I(a)
     Return seen
 }
 
@@ -181,12 +181,12 @@ ClassMethod part2()
     #;    }
     Do ##class(Utils.Base).load2(.data,2020,11)
     ZWrite data
-    Set r=$ORDER(data(""),1,v)    
+    Set r=$O(data(""),1,v)    
     Set w=0,h=0
     While r'=""{
         #; ZWrite v
-        For c=1:1:$LENGTH(v){            
-            Set cs=$EXTRACT(v,c)
+        For c=1:1:$L(v){            
+            Set cs=$E(v,c)
             Set seats(c,r)=cs
             If c>w{
                 Set w=c
@@ -195,7 +195,7 @@ ClassMethod part2()
         If r>h{
             Set h=r
         }
-        Set r=$ORDER(data(r),1,v)
+        Set r=$O(data(r),1,v)
     }    
     Set it=0    
     Write "loop",h," ",w,!
@@ -204,7 +204,7 @@ ClassMethod part2()
         Merge nextgen=seats
         For y=1:1:h{
             For x=1:1:w{
-                Set seat=$GET(seats(x,y),"")
+                Set seat=$G(seats(x,y),"")
                 #; Set empty=..getAdjFree(.seats,x,y)
                 Set occ=..getOccInView(.seats,x,y)
                 #; Write x,":",y," e:",empty," o:",occ,!
@@ -224,7 +224,7 @@ ClassMethod part2()
         Write "----------",!
         For y=1:1:h{
             For x=1:1:w{
-                Set seat=$GET(seats(x,y),"")
+                Set seat=$G(seats(x,y),"")
                 Write seat                
             }
             Write !
@@ -235,7 +235,7 @@ ClassMethod part2()
     Set c=0
     For y=1:1:h{
             For x=1:1:w{
-                Set seat=$GET(seats(x,y),"")
+                Set seat=$G(seats(x,y),"")
                 #; Write seat
                 If seat="#"{
                     Set c=c+1
