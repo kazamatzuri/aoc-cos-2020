@@ -3,18 +3,11 @@ Class fkh2020.Day11 Extends fkh2020.Base
 
 ClassMethod part1()
 {
-    #; Set data = ##class(Utils.Base).load(2020,11)
-    #; Set erg=0 
-	#; Set iterator=data.%GetIterator()
-   	#; While iterator.%GetNext(.key,.val) { 
-
-    #;    }
     Do ##class(Utils.Base).load2(.data,2020,11)
     ZWrite data
     Set r=$O(data(""),1,v)    
     Set w=0,h=0
     While r'=""{
-        #; ZWrite v
         For c=1:1:$L(v){            
             Set cs=$E(v,c)
             Set seats(c,r)=cs
@@ -35,9 +28,7 @@ ClassMethod part1()
         For y=1:1:h{
             For x=1:1:w{
                 Set seat=$G(seats(x,y),"")
-                #; Set empty=..getAdjFree(.seats,x,y)
                 Set occ=..getAdjOcc(.seats,x,y)
-                #; Write x,":",y," e:",empty," o:",occ,!
                 If (seat="L") && (occ=0){                
                     Set moved=moved+1
                     Set nextgen(x,y)="#"                
@@ -50,33 +41,16 @@ ClassMethod part1()
             }
         }        
         Set it=it+1
-        Merge seats=nextgen
-        Write "----------",!
-        For y=1:1:h{
-            For x=1:1:w{
-                Set seat=$G(seats(x,y),"")
-                Write seat
-                If seat="#"{
-                    Set c=c+1
-                }
-
-            }
-            Write !
-        }     
-        #; ZWrite seatss
+        Merge seats=nextgen                
     } While moved>0
 
     Set c=0
     For y=1:1:h{
-            For x=1:1:w{
-                Set seat=$G(seats(x,y),"")
-                Write seat
-                If seat="#"{
+            For x=1:1:w{                
+                If $G(seats(x,y),"")="#"{
                     Set c=c+1
                 }
-
-            }
-            Write !
+            }            
         }            
     Return c
     Return it
@@ -180,7 +154,7 @@ ClassMethod part2()
 
     #;    }
     Do ##class(Utils.Base).load2(.data,2020,11)
-    ZWrite data
+    #; ZWrite data
     Set r=$O(data(""),1,v)    
     Set w=0,h=0
     While r'=""{
@@ -198,7 +172,7 @@ ClassMethod part2()
         Set r=$O(data(r),1,v)
     }    
     Set it=0    
-    Write "loop",h," ",w,!
+    #; Write "loop",h," ",w,!
     Do {
         Set moved=0
         Merge nextgen=seats
@@ -221,14 +195,14 @@ ClassMethod part2()
         }        
         Set it=it+1
         Merge seats=nextgen
-        Write "----------",!
-        For y=1:1:h{
-            For x=1:1:w{
-                Set seat=$G(seats(x,y),"")
-                Write seat                
-            }
-            Write !
-        }     
+        #; Write "----------",!
+        #; For y=1:1:h{
+        #;     For x=1:1:w{
+        #;         Set seat=$G(seats(x,y),"")
+        #;         Write seat                
+        #;     }
+        #;     Write !
+        #; }     
         #; ZWrite seatss
     } While moved>0
 
