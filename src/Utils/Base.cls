@@ -8,8 +8,8 @@ Parameter Folder = "/irisdev/app/";
 ClassMethod inList(element, list) As %Boolean
 {
 	Set result=0
-	For i=1:1:$LISTLENGTH(list){
-		If $LISTGET(list,i)=element{
+	For i=1:1:$LL(list){
+		If $LG(list,i)=element{
 			Return 1			
 		}
 	}
@@ -33,13 +33,13 @@ ClassMethod powM(a, b, m)
 ClassMethod egcd(a, b)
 {
 	If a=0{
-		Return $LISTBUILD(b,0,1)
+		Return $LB(b,0,1)
 	}Else {
 		Set r=..egcd(b#a,a)
-		Set g=$LISTGET(r,1)
-		Set y=$LISTGET(r,2)
-		Set x=$LISTGET(r,3)
-		Return $LISTBUILD(g,x-((b\a)*y),y)
+		Set g=$LG(r,1)
+		Set y=$LG(r,2)
+		Set x=$LG(r,3)
+		Return $LB(g,x-((b\a)*y),y)
 	}
 }
 
@@ -48,9 +48,9 @@ ClassMethod modInv(a, m)
 	Write "a:",a," m:",m,!
 	Set r=..egcd(a,m)
 	ZWrite r
-	Set g=$LISTGET(r,1)
-	Set x=$LISTGET(r,2)
-	Set y=$LISTGET(r,3)
+	Set g=$LG(r,1)
+	Set x=$LG(r,2)
+	Set y=$LG(r,3)
 	If g'=1{
 		Write "inv doesn't exist ",a," ",m,!
 		Break
@@ -61,7 +61,7 @@ ClassMethod modInv(a, m)
 
 ClassMethod inArray(element, ByRef array) As %Boolean
 {
-	Return $DATA(array(element))
+	Return $D(array(element))
 }
 
 ClassMethod gcd(a, b) As %Integer
@@ -93,8 +93,8 @@ ClassMethod gcd(a, b) As %Integer
 ClassMethod manhattandist(a, b)
 {
 	Set sum=0
-	For i=1:1:$LISTLENGTH(a) {
-		Set sum=sum +$ZABS($LISTGET(a,i)-$LISTGET(b,i))
+	For i=1:1:$LL(a) {
+		Set sum=sum +$ZABS($LG(a,i)-$LG(b,i))
 	}
 	Return sum
 }
@@ -103,12 +103,12 @@ ClassMethod manhattandist(a, b)
 
 ClassMethod levenshtein(a, b) As %Integer
 {
-	If $LENGTH(a)'=$LENGTH(b){
+	If $L(a)'=$L(b){
 		Return -1
 	}
 	Set d=0
-	For t=1:1:$LENGTH(a) {
-		Set:($EXTRACT(a,t)'=$EXTRACT(b,t)) d=d+1
+	For t=1:1:$L(a) {
+		Set:($E(a,t)'=$E(b,t)) d=d+1
 	}
 	Return d
 }
@@ -218,7 +218,7 @@ ClassMethod load2(ByRef data, y, d, t = 0)
 	// Set data=[]
 	While 'fs.AtEnd{
 		Set x=fs.ReadLine()
-		Set data($INCREMENT(data))=x				
+		Set data($I(data))=x				
 	}
 	Return $$$OK
 }
@@ -229,13 +229,39 @@ ClassMethod loadSplit(y, d)
 	Set result=[]	
 	Set iter=data.%GetIterator()
 	While iter.%GetNext(.key,.value) {		
-		Set length=$LENGTH(value,",")
+		Set length=$L(value,",")
 		For i=1:1:length {
-			Set row=$PIECE(value,",",i)
+			Set row=$P(value,",",i)
 			Do result.%Push(row)
 		}
 	}
 	Return result
+}
+
+ClassMethod crt(params)
+{
+	
+	Set m=1
+	For i=1:1:$LL(params){
+		Set pair=$LG(params,i)
+		Set a=$LG(pair,1)
+		Set b=$LG(pair,2)
+		Set m=m*b
+	}
+	#; Write "debug ",m,!
+	Set erg=0
+	
+	For i=1:1:$LL(params){
+		Set pair=$LG(params,i)
+		Set a=$LG(pair,1)
+		Set b=$LG(pair,2)
+		
+		Set t=m\b
+		Set erg=erg+((a*t)*..powM(t,b-2,b))
+		Set erg=erg#m
+	}
+
+	Return erg
 }
 
 ClassMethod test()
