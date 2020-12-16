@@ -13,7 +13,7 @@
         "internalPort": 52773
       },
       "active": true
-    },
+    },    
     "sqltools.connections": [
       {
         "namespace": "USER",
