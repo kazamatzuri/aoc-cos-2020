@@ -59,27 +59,80 @@ ClassMethod modInv(a, m)
 	}
 }
 
-ClassMethod map(ByRef input, classname, methodname)
+ClassMethod map(ByRef input, classname, methodname, ByRef payload)
 {
 	Set ref=$Q(input(""),1,v)
 	While ref'=""{
 		Set k=""		
 		Set l=$QL(ref)
 		For i=1:1:l  {If k="" {Set k=$QS(ref,i)} Else {Set k=k_","_$QS(ref,i)}}
-		Set result=$CLASSMETHOD(classname,methodname,k,v)
+		Set result=$CLASSMETHOD(classname,methodname,k,v,.payload)
 		Set @ref=result
 		Set ref=$Q(@ref,1,v)
 	}
 }
 
-ClassMethod foreach(ByRef data, classname, methodname)
+ClassMethod convertDecTo(number, base)
+{
+	Set t=0
+	Set m=$ZPOWER(base,t)
+	While m<=number {
+		Set t=t+1
+		Set m=$ZPOWER(base,t)
+	}
+	Set t=t-1
+	Set res=""
+	While t>=0 {
+		Set p=$ZPOWER(base,t)
+		Set d=number\p
+		Set number=number#p
+		Set res=res_d
+		Set t=t-1
+	}
+	Return res
+}
+
+ClassMethod rjzf(num, len)
+{
+	Return $TR($J(num,len)," ","0")
+}
+
+/**
+*	takes in an array of values like so:
+	 values=3
+     values(1)=-1
+	 values(2)=0
+	 values(3)=1
+
+	 and creates a list of all permutations of those of the length length
+
+	 note: current implementation only works up till 9 elements in values
+*/
+ClassMethod permutations(ByRef values, length, ByRef output)
+{
+	New (values,length,output)
+	Set k=0
+	Set v=##clasS(Utils.Base).convertDecTo(k,values)
+	While $L(v)<=length {
+		Set index=..rjzf(v,length)
+		For i=1:1:$L(index){
+			Set:i=1 subscript=$G(values($E(index,i)+1))
+			Set:i>1 subscript=subscript_","_$G(values($E(index,i)+1))
+		}
+		Set output($I(output))=subscript
+		Set k=k+1
+		Set v=##clasS(Utils.Base).convertDecTo(k,values)
+	}
+}
+
+ClassMethod foreach(ByRef data, classname, methodname, ByRef payload)
 {
 	Set ref=$Q(data(""),1,v)
 	While ref'=""{
 		Set k=""		
 		Set l=$QL(ref)
 		For i=1:1:l  {If k="" {Set k=$QS(ref,i)} Else {Set k=k_","_$QS(ref,i)}}
-		Do $CLASSMETHOD(classname,methodname,k,v)
+		Do $CLASSMETHOD(classname,methodname,k,v,.payload)
 		Set ref=$Q(@ref,1,v)
 	}
 }

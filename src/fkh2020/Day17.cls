@@ -90,62 +90,49 @@ ClassMethod part1()
         Kill data
         Merge data=newdata        
     }   
-    Set all= ..countAll(.data)       
-    Return all
+    Do ##class(Utils.Base).foreach(.data,"fkh2020.Day17","count",.number)    
+    Return number
 }
 
-ClassMethod countAll(ByRef data)
+ClassMethod count(k, v, ByRef payload)
 {
-    Set act=0
-    
-    Set act=0
-    Set minx=$O(data(""))
-        Set maxx=$O(data(""),-1)
-        Write minx,maxx,!
-        For tx=minx:1:maxx{
-            Set miny=$O(data(tx,""))
-            Set maxy=$O(data(tx,""),-1)                    
-            For ty=miny:1:(maxy){
-                Set minz=$O(data(tx,ty,""))
-                Set maxz=$O(data(tx,ty,""),-1)                    
-                For tz=(minz):1:(maxz){                    
-                    #; Write tx,ty,tz,!
-                    Set v=$G(data(tx,ty,tz),".")
-                    If v="#"{
-                        Set act=act+1
-                    }
-                }
-        }            
-        }
-        Return act
+    If v="#" {
+        Set payload=$G(payload,0)+1
+    }
 }
 
-ClassMethod countAll2(ByRef data)
+ClassMethod influenceNeighbours(k, v, ByRef output)
 {
-    Set act=0
-    Set minx=$O(data(""))
-    Set maxx=$O(data(""),-1)
-    Write minx,maxx,!
-    For tx=minx:1:maxx{
-        Set miny=$O(data(tx,""))
-        Set maxy=$O(data(tx,""),-1)                    
-        For ty=miny:1:(maxy){
-            Set minz=$O(data(tx,ty,""))
-            Set maxz=$O(data(tx,ty,""),-1)                    
-            For tz=(minz):1:(maxz){      
-                Set minw=$O(data(tx,ty,tz,""))
-                Set maxw=$O(data(tx,ty,tz,""),-1)                    
-                For tw=(minw):1:(maxw){                   
-                    #; Write tx,ty,tz,!
-                    Set v=$G(data(tx,ty,tz,tw),".")
-                    If v="#"{
-                        Set act=act+1
-                    }
-                }
-            }
-        }
-    }            
-    Return act
+    Set values($I(values))=-1
+    Set values($I(values))=0
+    Set values($I(values))=1
+    Set l=$L(k,",")
+    Do ##class(Utils.Base).permutations(.values,l,.perms)
+    If v="#"{
+        Set l=$L(k,",")
+        Set output("base")=k
+        Do ##class(Utils.Base).foreach(.perms,"fkh2020.Day17","setN",.output)
+    }
+}
+
+ClassMethod setN(k, v, ByRef output)
+{
+    Set base=$G(output("base"))
+    Set newsub=""
+    Set l=$L(base,"v")
+    If (l=3)&&(v'="0,0,0"){
+        Set s1=$P(base,",",1)+$P(v,",",1)
+        Set s2=$P(base,",",2)+$P(v,",",2)
+        Set s3=$P(base,",",3)+$P(v,",",3)
+        Set output(s1,s2,s3)=$G(output(s1,s2,s3),0)+1
+    }
+    If (l=4)&&(v'="0,0,0,0"){
+        Set s1=$P(base,",",1)+$P(v,",",1)
+        Set s2=$P(base,",",2)+$P(v,",",2)
+        Set s3=$P(base,",",3)+$P(v,",",3)
+        Set s4=$P(base,",",4)+$P(v,",",4)
+        Set output(s1,s2,s3)=$G(output(s1,s2,s3),0)+1
+    }
 }
 
 ClassMethod part2()
@@ -196,8 +183,8 @@ ClassMethod part2()
         Kill data
         Merge data=newdata        
     }   
-    Set all= ..countAll2(.data)       
-    Return all
+    Do ##class(Utils.Base).foreach(.data,"fkh2020.Day17","count",.number)    
+    Return number
 }
 
 }
