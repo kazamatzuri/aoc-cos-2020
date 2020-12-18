@@ -12,8 +12,7 @@ ClassMethod getActiveN2(ByRef data, x, y, z, w)
                         If v="#" {
                             Set act=act+1
                         }
-
-                } 
+} 
             }
         }
     }    
@@ -74,14 +73,14 @@ ClassMethod part1()
                     Set n=..getActiveN(.data,tx,ty,tz)                   
                     If (v="#"){                            
                             If ((n=2)||(n=3)){
-                                Write r,"th round ",tx," ",ty," ",tz," act ",n,!
+                                #; Write r,"th round ",tx," ",ty," ",tz," act ",n,!
                                 Set newdata(tx,ty,tz)="#"                        
                             } Else {
                                 Set newdata(tx,ty,tz)="."                        
                             }
                     }
                     If ((v=".")&&(n=3)){
-                        Write r,"th round ",tx," ",ty," ",tz," act ",n,!
+                        #; Write r,"th round ",tx," ",ty," ",tz," act ",n,!
                         Set newdata(tx,ty,tz)="#"
                     }
                 }
@@ -97,6 +96,8 @@ ClassMethod part1()
 
 ClassMethod countAll(ByRef data)
 {
+    Set act=0
+    
     Set act=0
     Set minx=$O(data(""))
         Set maxx=$O(data(""),-1)

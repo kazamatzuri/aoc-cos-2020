@@ -1,4 +1,4 @@
-Class Utils.Base Extends %RegisteredObject
+Class Utils.Base Extends %RegisteredObject [ Not ProcedureBlock ]
 {
 
 Parameter Folder = "/irisdev/app/";
@@ -56,6 +56,31 @@ ClassMethod modInv(a, m)
 		Break
 	} Else {
 		Return x#m
+	}
+}
+
+ClassMethod map(ByRef input, classname, methodname)
+{
+	Set ref=$Q(input(""),1,v)
+	While ref'=""{
+		Set k=""		
+		Set l=$QL(ref)
+		For i=1:1:l  {If k="" {Set k=$QS(ref,i)} Else {Set k=k_","_$QS(ref,i)}}
+		Set result=$CLASSMETHOD(classname,methodname,k,v)
+		Set @ref=result
+		Set ref=$Q(@ref,1,v)
+	}
+}
+
+ClassMethod foreach(ByRef data, classname, methodname)
+{
+	Set ref=$Q(data(""),1,v)
+	While ref'=""{
+		Set k=""		
+		Set l=$QL(ref)
+		For i=1:1:l  {If k="" {Set k=$QS(ref,i)} Else {Set k=k_","_$QS(ref,i)}}
+		Do $CLASSMETHOD(classname,methodname,k,v)
+		Set ref=$Q(@ref,1,v)
 	}
 }
 
