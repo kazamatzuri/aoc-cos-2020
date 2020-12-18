@@ -21,4 +21,18 @@ ClassMethod run()
     Do ##class(Utils.Base).foreach(.data,"Utils.Test","printvalues")
 }
 
+ClassMethod testPermutations()
+{
+    Set values($I(values))=-1
+    Set values($I(values))=0
+    Set values($I(values))=1
+    Do ##class(Utils.Base).permutations(.values,3,.output)
+    ZWrite output
+}
+
+ClassMethod testConvertDecTo()
+{
+    Write ##class(Utils.Base).convertDecTo(136,8)
+}
+
 }
