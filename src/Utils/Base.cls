@@ -127,13 +127,15 @@ ClassMethod permutations(ByRef values, length, ByRef output)
 
 ClassMethod foreach(ByRef data, classname, methodname, ByRef payload)
 {
+	New (data,classname,methodname,payload)	
 	Set ref=$Q(data(""),1,v)
+	
 	While ref'=""{
 		Set k=""		
 		Set l=$QL(ref)
 		For i=1:1:l  {If k="" {Set k=$QS(ref,i)} Else {Set k=k_","_$QS(ref,i)}}
-		Do $CLASSMETHOD(classname,methodname,k,v,.payload)
-		Set ref=$Q(@ref,1,v)
+		Do $CLASSMETHOD(classname,methodname,k,v,.payload)	
+		Set ref=$Q(@ref,1,v)		
 	}
 }
 
