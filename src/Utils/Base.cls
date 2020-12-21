@@ -16,6 +16,19 @@ ClassMethod inList(element, list) As %Boolean
 	Return result
 }
 
+ClassMethod removeFromList(element, list) As %List
+{
+	
+	Set nl=""	
+	For i=1:1:$LL(list){
+		Set e=$LG(list,i)
+		If e'=element {
+			Set nl=nl_$LB(e)
+		}
+	}
+	Return nl
+}
+
 ClassMethod powM(a, b, m)
 {
 	Set res=1
