@@ -1,7 +1,7 @@
 Class Utils.Base Extends %RegisteredObject [ Not ProcedureBlock ]
 {
 
-Parameter Folder = "/irisdev/app/";
+Parameter Folder = "/irisrun/repo/";
 
 // true if element in array
 
